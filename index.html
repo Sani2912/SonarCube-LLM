@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Analyzer</title>
+</head>
+<body>
+    <h1>Code Analyzer</h1>
+    <textarea id="code" rows="10" cols="50" placeholder="Paste your code here"></textarea><br>
+    <button onclick="analyzeCode()">Analyze Code</button>
+    <h2>Fixed Code:</h2>
+    <pre id="fixedCode"></pre>
+
+    <script>
+        function analyzeCode() {
+            const code = document.getElementById("code").value;
+
+            fetch("http://127.0.0.1:5000/analyze", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("fixedCode").textContent = data.fixed_code;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
